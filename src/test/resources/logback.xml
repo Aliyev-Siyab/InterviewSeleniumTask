@@ -1,0 +1,41 @@
+<!--
+    Этот XML-конфигурационный файл используется для настройки Logback,
+    который является библиотекой для регистрации логов в приложениях на Java.
+    Здесь содержатся настройки для вывода логов в консоль и записи в файл.
+-->
+
+<configuration>
+
+    <!-- Определяем шаблон временной метки для именования файлов логов -->
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+
+    <!-- Аппендер для вывода логов в консоль -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- Шаблон форматирования вывода в консоль -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Аппендер для записи логов в файл -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <!-- Путь к файлу для записи логов -->
+        <file>src/test_logs/log-${bySecond}.log</file>
+        <maxHistory>5</maxHistory>
+        <append>true</append>
+        <!-- Немедленный сброс записываемых данных в файл -->
+        <immediateFlush>true</immediateFlush>
+        <!-- Шаблон форматирования вывода в файл -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Корневой логгер -->
+    <root level="info">
+        <!-- Добавляем аппендер для вывода логов в консоль -->
+        <appender-ref ref="STDOUT" />
+        <!-- Добавляем аппендер для записи логов в файл -->
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
